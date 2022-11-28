@@ -1,0 +1,3 @@
+name and location of file: ./phylogenies/sequences.align_muscle.fasta.phylo_fasttree.tre
+command string: fasttree -nt -gtr -noml "./sequences/sequences.align_muscle.fasta" >> "./phylogenies/sequences.align_muscle.fasta.phylo_fasttree.tre"
+date the phylogeny was created: Mon 28 Nov 2022 11:03:01 AM CST
