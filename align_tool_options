@@ -1,5 +1,5 @@
 Muscle,-gapopen=3
 
-MAFFT,--op=5.0,--ep=5.0
+MAFFT,--op=5.25,--ep=5.0
 
 PRANK,-gaprate=0.001,-gapext=0.750

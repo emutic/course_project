@@ -1,0 +1,6 @@
+alignment file name: sequences.align_PRANK.fasta
+prank -gaprate="0.001" -gapext="0.750" -d="./sequences/all_sequences" -o="./sequences/sequences.align_PRANK.fasta"; cp "./sequences/sequences.align_PRANK.fasta"; rm "./sequences/sequences.align_PRANK.fasta.best.fas"
+alignment was created on Mon 28 Nov 2022 01:09:51 AM CST
+number of sequences aligned: 9
+number of sites aligned: 2488
+PRANK,-gaprate=0.001,-gapext=0.750

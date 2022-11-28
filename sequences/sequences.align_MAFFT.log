@@ -1,0 +1,6 @@
+alignment file name: sequences.align_MAFFT.fasta
+command string: mafft --op 5.25 --ep 5.0 './sequences/all_sequences' > './sequences/sequences.align_MAFFT.fasta'
+alignment was created on Mon 28 Nov 2022 12:36:51 AM CST
+number of sequences aligned: 9
+number of sites aligned: 2474
+MAFFT,--op=5.25,--ep=5.0
