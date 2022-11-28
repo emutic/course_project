@@ -1,6 +1,6 @@
 alignment file name: sequences.align_muscle.fasta
-command string: muscle -in ./sequences/all_sequences  -out './sequences/sequences.align_muscle.fasta' -maxiters 1
-alignment was created on Sun 27 Nov 2022 11:54:29 PM CST
+command string: muscle -in ./sequences/all_sequences  -out "./sequences/sequences.align_muscle.fasta" -maxiters 1
+alignment was created on Mon 28 Nov 2022 01:27:18 AM CST
 number of sequences aligned: 9
-number of sites aligned: 2482
+number of sites aligned: 0
 Muscle,-gapopen=3

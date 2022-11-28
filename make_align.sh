@@ -42,6 +42,11 @@ then
 		touch "./$sequence_dir/$sequence_dir.align_muscle.fasta"
 	fi
 	muscle -in ./$sequence_dir/all_sequences  -out "./$sequence_dir/$sequence_dir.align_muscle.fasta" -maxiters $maxiters
+	if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_muscle.fasta") ]]
+        then
+                echo "warning: muscle failed to align all sequences in the directory $sequence_dir" >> "./warnings.log"
+                continue
+        fi
 	if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_muscle.log") ]]
 	then
 		echo "making alignment settings file"
@@ -79,7 +84,13 @@ then
         fi
 
         mafft --op $op --ep $ep "./$sequence_dir/all_sequences" > "./$sequence_dir/$sequence_dir.align_MAFFT.fasta"
-        if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_MAFFT.log") ]]
+        if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_MAFFT.fasta") ]]
+        then
+                echo "warning: MAFFT failed to align all sequences in the directory $sequence_dir" >> "./warnings.log"
+                continue
+        fi
+
+	if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_MAFFT.log") ]]
         then
                 echo "making alignment settings file"
                 touch "./$sequence_dir/$sequence_dir.align_MAFFT.log"
@@ -117,9 +128,9 @@ then
                 touch "./$sequence_dir/$sequence_dir.align_PRANK.fasta"
         fi
 	prank -gaprate="$gaprate" -gapext="$gapext" -d="./$sequence_dir/all_sequences" -o="./$sequence_dir/$sequence_dir.align_PRANK.fasta"; cp "./$sequence_dir/$sequence_dir.align_PRANK.fasta.best.fas" "./$sequence_dir/$sequence_dir.align_PRANK.fasta"; rm "./$sequence_dir/$sequence_dir.align_PRANK.fasta.best.fas"
-	if [[ ! -n $(echo "./$sequence_dir/$sequence_dir.align_PRANK.fasta") ]]
+	if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_PRANK.fasta") ]]
         then
-                echo "warning: PRANK failed to align $(ls $sequence_dir)" >> "./warnings.log"
+                echo "warning: PRANK failed to align all sequences in the directory $sequence_dir" >> "./warnings.log"
 		continue
         fi
 
