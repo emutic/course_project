@@ -155,6 +155,6 @@ then
         echo "number of sequences aligned: $num_seq" >> "./$sequence_dir/$sequence_dir.align_PRANK.log"
         echo "number of sites aligned: $num_sites" >> "./$sequence_dir/$sequence_dir.align_PRANK.log"
         echo "$align_tool_options" | grep "PRANK" >> "./$sequence_dir/$sequence_dir.align_PRANK.log"
-
+	rm -r "./tmpdirprank*"
 
 fi
