@@ -117,6 +117,12 @@ then
                 touch "./$sequence_dir/$sequence_dir.align_PRANK.fasta"
         fi
 	prank -gaprate="$gaprate" -gapext="$gapext" -d="./$sequence_dir/all_sequences" -o="./$sequence_dir/$sequence_dir.align_PRANK.fasta"; cp "./$sequence_dir/$sequence_dir.align_PRANK.fasta.best.fas" "./$sequence_dir/$sequence_dir.align_PRANK.fasta"; rm "./$sequence_dir/$sequence_dir.align_PRANK.fasta.best.fas"
+	if [[ ! -n $(echo "./$sequence_dir/$sequence_dir.align_PRANK.fasta") ]]
+        then
+                echo "warning: PRANK failed to align $(ls $sequence_dir)" >> "./warnings.log"
+		continue
+        fi
+
         if [[ ! -n $(cat "./$sequence_dir/$sequence_dir.align_PRANK.log") ]]
         then
                 echo "making alignment settings file"
@@ -126,6 +132,7 @@ then
                 rm "./$sequence_dir/$sequence_dir.align_PRANK.log"
                 touch "./$sequence_dir/$sequence_dir.align_PRANK.log"
         fi
+
 
         echo "alignment file name: $sequence_dir.align_PRANK.fasta" >> "./$sequence_dir/$sequence_dir.align_PRANK.log"
         echo "command string: prank -gaprate=\"$gaprate\" -gapext=\"$gapext\" -d=\"./$sequence_dir/all_sequences\" -o=\"./$sequence_dir/$sequence_dir.align_PRANK.fasta\"; cp \"./$sequence_dir/$sequence_dir.align_PRANK.fasta\"; rm \"./$sequence_dir/$sequence_dir.align_PRANK.fasta.best.fas\"" >> "./$sequence_dir/$sequence_dir.align_PRANK.log"
