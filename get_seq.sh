@@ -19,7 +19,7 @@ do # do
 	if [[ $3 = "true" ]]
 	then
 		rm "./$dir/$accession.fasta" # exists but is invalid
-		Seq=$(esearch -db nucleotide -query "$accession" | efetch -format fasta -stop 1)
+		Seq=$(esearch -db nucleotide -query "$accession [ACCESSION]" | efetch -format fasta -stop 1)
 		touch "./$dir/$accession.fasta"
 		echo "Overriding sequence $accession"
 		echo "$Seq" > "./$dir/$accession.fasta"
@@ -31,8 +31,8 @@ do # do
 	then
 		line1=$(cat "$dir/$accession_test.fasta" | grep -o ">$accession" | tr -d [:space:])
 		line2=$(cat "$dir/$accession_test.fasta" | head -n2 | tail -n1 | grep -P ".*[AGCT].*" | tr -d [:space:])
-		echo $line1 | wc -c
-		echo $line2 | wc -c
+#		echo $line1 | wc -c
+#		echo $line2 | wc -c
 		if [[ $(echo $line1 | wc -c) -gt 1 && $(echo $line2 | wc -c) -ge 2 ]]
 		then
 			echo "sequence $accession valid and downloaded"
@@ -41,17 +41,33 @@ do # do
 			echo "sequence $accession not valid, overriding"
 			rm "./$dir/$accession.fasta" # exists but is invalid
 			# then download it
-			Seq=$(esearch -db nucleotide -query "$accession" | efetch -format fasta -stop 1)
-			touch "./$dir/$accession.fasta"
-			echo "$Seq" > "./$dir/$accession.fasta"
+			Seq=$(esearch -db nucleotide -query "$accession [ACCESSION]" | efetch -format fasta -stop 1)
+			if [[ ! -n $Seq ]]
+                	then
+                        	echo "sequence $accession is not a sequence present on GenBank"
+                        	echo "sequence $accession is not a sequence present on GenBank" >> "./warnings.log"
+                	else
+                		echo "sequence $accession not present, downloading from GenBank"
+                		touch "./$dir/$accession.fasta"
+                		echo "$Seq" > "./$dir/$accession.fasta"
+				echo "$accession.fasta was marked as invalid and removed from the $dir directory, then redownloaded."
+                        	echo "$accession.fasta was marked as invalid and removed from the $dir directory, then redownloaded." >> "./warnings.log"
+			fi
 			continue
 		fi
 	else
 		# download the accession
-		echo "sequence $accession not present, downloading"
-		Seq=$(esearch -db nucleotide -query "$accession" | efetch -format fasta -stop 1)
+		Seq=$(esearch -db nucleotide -query "$accession [ACCESSION]" | efetch -format fasta -stop 1)
+#		echo "$Seq"
+		if [[ ! -n $Seq ]]
+		then
+			echo "sequence $accession is not a sequence present on GenBank"
+			echo "sequence $accession is not a sequence present on GenBank" >> "./warnings.log"
+		else
+		echo "sequence $accession not present, downloading from GenBank"
 		touch "./$dir/$accession.fasta"
 		echo "$Seq" > "./$dir/$accession.fasta"
+		fi
 		# name is by accession.fasta
 	fi
 		# a) if >description and SeqData exist in the accession
